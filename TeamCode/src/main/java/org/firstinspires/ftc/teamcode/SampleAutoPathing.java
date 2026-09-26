@@ -36,7 +36,7 @@ private Timer pathTimer, opModeTimer;
         switch(pathState) {
             case DRIVE_STARTPOS_SHOOT_POS:
                 ;
-                follower.followPath(driveStartPosShootPos, holdEnd, true);
+                follower.followPath
                 setPathState(PathState.SHOOT_PRELOAD);  // reset timer and make new state
                 break;
             case SHOOT_PRELOAD:
