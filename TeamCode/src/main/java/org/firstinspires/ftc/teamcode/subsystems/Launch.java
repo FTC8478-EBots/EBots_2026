@@ -15,56 +15,46 @@ import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 
 
 public class Launch {
-    public static int LAUNCH_VELOCITY = -1300;
+    public static int LAUNCH_VELOCITY = 0;
     public static double PUSHER_OFFSET = -0.03;
     DcMotorEx launchMotor;
     Gamepad gamepad;
     Telemetry telemetry;
-    boolean pressed = false;
 
     double targetVelocity;
+    boolean pressed;
 
-
-    public Launch(HardwareMap hardwareMap, Gamepad gamepad, Telemetry telemetry, AutoSteerCamera autoSteerCamera) {
+    public Launch(HardwareMap hardwareMap, Gamepad gamepad, Telemetry telemetry) {
         launchMotor = hardwareMap.get(DcMotorEx.class, "launch");
         this.gamepad = gamepad;
         launchMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        launchMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+    //    launchMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
         this.telemetry = telemetry;
 
-        // TEST: Always have the motor on
-        //launchMotor.setVelocity(LAUNCH_VELOCITY);
+
     }
 
-    void processGamepad() {
-        //Testing always on motor in initialization so this code does nothing right now
-        if (gamepad.square) {
-            launchMotor.setVelocity(-LAUNCH_VELOCITY);
-
-        } else if (gamepad.triangle) {
-            launchMotor.setVelocity(LAUNCH_VELOCITY);
-
-        } else {
-            launchMotor.setVelocity(0);
-        }
+    public void processGamepad() {
 
         if (gamepad.dpad_left) {
             if (!pressed) {
-                LAUNCH_VELOCITY -= 20;
                 pressed = true;
+                LAUNCH_VELOCITY -= 200;
+                launchMotor.setVelocity(LAUNCH_VELOCITY);
             }
         } else if (gamepad.dpad_right) {
             if (!pressed) {
-                LAUNCH_VELOCITY += 20;
                 pressed = true;
+                LAUNCH_VELOCITY += 200;
+                launchMotor.setVelocity(LAUNCH_VELOCITY);
             }
         } else {
             pressed = false;
         }
-        if (/*!launchDetector.isArtifactDetected()*/true && gamepad.triangle) {
-            nextPostion();
-        }
+     //   if (/*!launchDetector.isArtifactDetected()/true && gamepad.triangle) {
+       //     nextPostion();
+       // }
         telemetry.addData("LAUNCH_VELOCITY:", launchMotor.getVelocity());
 
     }
@@ -73,13 +63,12 @@ public class Launch {
     }//if error occurs check nextPosition
 
     boolean isFast() {
-        return (launchMotor.getVelocity() / LAUNCH_VELOCITY) > .8;
+        return (launchMotor.getVelocity()/LAUNCH_VELOCITY)>.8;
     }
 
-    public class LaunchAction implements Action {
-        private boolean initialized = false;
-
-        public LaunchAction(double launchVelocity) {
+   // public class LaunchAction implements Action {
+      //  private boolean initialized = false;
+        public void LaunchAction(double launchVelocity) {
             targetVelocity = launchVelocity;
             launchMotor.setVelocity(targetVelocity);
 
@@ -87,4 +76,3 @@ public class Launch {
 
 
     }
-}
