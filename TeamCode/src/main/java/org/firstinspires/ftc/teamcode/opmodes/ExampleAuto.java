@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import static com.pedropathing.api.Paths.line;
+import static com.pedropathing.api.Paths.path;
 import static com.pedropathing.ivy.Scheduler.schedule;
 import static com.pedropathing.ivy.groups.Groups.sequential;
 import static com.pedropathing.ivy.pedro.PedroCommands.follow;
@@ -38,11 +39,22 @@ public class ExampleAuto extends OpMode {
         return line(scorePose, parkPose).linear(scorePose, parkPose);
     }
 
+    private Path autoPath() {
+        return path(
+                line(startPose,flower1).linear(startPose,flower1),
+                line(flower1,flower2).linear(flower1,flower2),
+                line(flower2,flower3).linear(flower2,flower3),
+                line(flower3,flower4).linear(flower3,flower4)
+                );
+
+    }
+
     private Command autoRoutine() {
         return sequential(
-                follow(follower, startToScore()),
+               // follow(follower, startToScore()),
                 // Add mechanism commands here.
-                follow(follower, park())
+                //follow(follower, park())
+                follow(follower,autoPath())
         );
     }
 
