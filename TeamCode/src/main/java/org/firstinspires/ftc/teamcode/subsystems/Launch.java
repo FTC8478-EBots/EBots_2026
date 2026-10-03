@@ -5,22 +5,30 @@ import androidx.annotation.NonNull;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 
 
 public class Launch {
-    public static int LAUNCH_VELOCITY = 0;
-    public static double PUSHER_OFFSET = -0.03;
+    public static boolean LAUNCH_MOTOR_ON;
+    public static int LAUNCH_VELOCITY = 800;
+    public static double TURN_OFF_TIME = 10.0;
+    ElapsedTime motorTimer;
+
     DcMotorEx launchMotor;
     Gamepad gamepad;
     Telemetry telemetry;
 
+    private ElapsedTime mechanismTimer = new ElapsedTime();
     double targetVelocity;
     boolean pressed;
 
@@ -36,18 +44,29 @@ public class Launch {
     }
 
     public void processGamepad() {
-
-        if (gamepad.dpad_left) {
+        if (gamepad.dpad_up) {
+            if (!pressed) {
+                pressed = true;
+                launchMotor.setVelocity(LAUNCH_VELOCITY);
+                LAUNCH_MOTOR_ON = true;
+            }
+        } else if (gamepad.dpad_down) {
+                if (!pressed) {
+                    pressed = true;
+                    launchMotor.setVelocity(0);
+                    LAUNCH_MOTOR_ON = false;
+                }
+        } else if (gamepad.dpad_left) {
             if (!pressed) {
                 pressed = true;
                 LAUNCH_VELOCITY -= 200;
-                launchMotor.setVelocity(LAUNCH_VELOCITY);
+                //launchMotor.setVelocity(LAUNCH_VELOCITY);
             }
         } else if (gamepad.dpad_right) {
             if (!pressed) {
                 pressed = true;
                 LAUNCH_VELOCITY += 200;
-                launchMotor.setVelocity(LAUNCH_VELOCITY);
+                //launchMotor.setVelocity(LAUNCH_VELOCITY);
             }
         } else {
             pressed = false;
@@ -73,6 +92,13 @@ public class Launch {
             launchMotor.setVelocity(targetVelocity);
 
         }
-
-
+     public void motorOnMotorOff() {
+         double seconds = motorTimer.seconds();
+         if (LAUNCH_MOTOR_ON) {
+            if (seconds > TURN_OFF_TIME) {
+                launchMotor.setVelocity(0);
+                LAUNCH_MOTOR_ON = false;
+            }
+         }
+    }
     }
