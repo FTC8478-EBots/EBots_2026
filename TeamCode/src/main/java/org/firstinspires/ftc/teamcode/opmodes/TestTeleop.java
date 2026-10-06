@@ -23,7 +23,8 @@ public class TestTeleop extends OpMode    {
     }
     public void loop(){
         robot.launch.processGamepad();
-        robot.launchLight.CheckLight();
+        robot.intake.processGamepad();
+        robot.launch.CheckLight();
         robot.launch.motorOnMotorOff();
         double seconds = stateTimer.seconds();
         if (stateTimer.seconds()>10.0){

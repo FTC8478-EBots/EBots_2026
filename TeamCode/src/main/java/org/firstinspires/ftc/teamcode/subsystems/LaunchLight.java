@@ -23,18 +23,7 @@ public class LaunchLight {
         light = hardwareMap.get(Servo.class, launchLight);
         this.telemetry = telemetry;
     }
-    public void CheckLight() {
-        LAUNCH_VELOCITY = launchMotor.getVelocity();
-        if (!LAUNCH_MOTOR_ON) {
-            setBlack();
-        } else if (LAUNCH_VELOCITY < MIN_LAUNCH_LIGHT) {
-            setBlue();
-        } else if (LAUNCH_VELOCITY > MAX_LAUNCH_LIGHT) {
-            setRed();
-        } else {
-            setGreen();
-        }
-    }
+
 
     public void setRed() {light.setPosition(0.28);}
 

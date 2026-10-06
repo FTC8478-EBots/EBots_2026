@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
+import static org.firstinspires.ftc.teamcode.subsystems.LaunchLight.MAX_LAUNCH_LIGHT;
+
 import androidx.annotation.NonNull;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -13,18 +15,23 @@ import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
+import org.firstinspires.ftc.teamcode.RobotHardware;
 
 
 public class Launch {
     public static boolean LAUNCH_MOTOR_ON;
     public static int LAUNCH_VELOCITY = 800;
     public static double TURN_OFF_TIME = 10.0;
+    public static double STOW_POSTION=0;
+    public static double LAUNCH_POSTION=0.5;
     ElapsedTime motorTimer;
 
     DcMotorEx launchMotor;
+    Servo pushServo;
     Gamepad gamepad;
     Telemetry telemetry;
 
@@ -75,6 +82,7 @@ public class Launch {
        //     nextPostion();
        // }
         telemetry.addData("LAUNCH_VELOCITY:", launchMotor.getVelocity());
+        telemetry.addData("TARGET_VELOCITY:", LAUNCH_VELOCITY);
 
     }
 
@@ -83,6 +91,19 @@ public class Launch {
 
     boolean isFast() {
         return (launchMotor.getVelocity()/LAUNCH_VELOCITY)>.8;
+    }
+    public void CheckLight() {
+        double currentVelocity = launchMotor.getVelocity();
+        RobotHardware robot = RobotHardware.getRobot();
+        if (!LAUNCH_MOTOR_ON) {
+            robot.launchLight.setBlack();
+        } else if (currentVelocity < LAUNCH_VELOCITY * .9) {
+            robot.launchLight.setBlue();
+        } else if (currentVelocity > LAUNCH_VELOCITY * 1.1) {
+            robot.launchLight.setRed();
+        } else {
+            robot.launchLight.setGreen();
+        }
     }
 
    // public class LaunchAction implements Action {
