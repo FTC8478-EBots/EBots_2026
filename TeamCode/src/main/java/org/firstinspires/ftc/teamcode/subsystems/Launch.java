@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
-import static org.firstinspires.ftc.teamcode.subsystems.LaunchLight.MAX_LAUNCH_LIGHT;
+// import static org.firstinspires.ftc.teamcode.subsystems.LaunchLight.MAX_LAUNCH_LIGHT;
 
 import androidx.annotation.NonNull;
 
@@ -42,11 +42,10 @@ public class Launch {
     public Launch(HardwareMap hardwareMap, Gamepad gamepad, Telemetry telemetry) {
         launchMotor = hardwareMap.get(DcMotorEx.class, "launch");
         this.gamepad = gamepad;
-        launchMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        //launchMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     //    launchMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
         this.telemetry = telemetry;
-
 
     }
 
@@ -67,13 +66,11 @@ public class Launch {
             if (!pressed) {
                 pressed = true;
                 LAUNCH_VELOCITY -= 200;
-                //launchMotor.setVelocity(LAUNCH_VELOCITY);
             }
         } else if (gamepad.dpad_right) {
             if (!pressed) {
                 pressed = true;
                 LAUNCH_VELOCITY += 200;
-                //launchMotor.setVelocity(LAUNCH_VELOCITY);
             }
         } else {
             pressed = false;
@@ -83,7 +80,7 @@ public class Launch {
        // }
         telemetry.addData("LAUNCH_VELOCITY:", launchMotor.getVelocity());
         telemetry.addData("TARGET_VELOCITY:", LAUNCH_VELOCITY);
-
+        telemetry.addData("VELOCITY_%:", launchMotor.getVelocity() / LAUNCH_VELOCITY);
     }
 
     private void nextPostion() {
@@ -114,7 +111,8 @@ public class Launch {
 
         }
      public void motorOnMotorOff() {
-         double seconds = motorTimer.seconds();
+        RobotHardware robot=RobotHardware.getRobot();
+         double seconds = robot.motorTimer.seconds();
          if (LAUNCH_MOTOR_ON) {
             if (seconds > TURN_OFF_TIME) {
                 launchMotor.setVelocity(0);

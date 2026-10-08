@@ -1,19 +1,17 @@
 package org.firstinspires.ftc.teamcode.opmodes;
-//today noah wasted five minutes
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.RobotHardware;
-
 
 @TeleOp
 public class TestTeleop extends OpMode    {
     RobotHardware robot;
 
     public void init(){
-        robot=new RobotHardware();
+        robot=RobotHardware.getRobot();
 
-        robot.init();
+        robot.init(hardwareMap, gamepad1, gamepad2, telemetry, motorTimer);
     }
     public void start() {
         robot.launchLight.setWhite();
@@ -33,5 +31,5 @@ public class TestTeleop extends OpMode    {
       //mechanismTimer.reset();
     }
     private ElapsedTime stateTimer = new ElapsedTime();
-    private ElapsedTime motorTimer = new ElapsedTime();
+    public ElapsedTime motorTimer = new ElapsedTime();
 }

@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class LaunchLight {
-    public static int MIN_LAUNCH_LIGHT = 800;
+   public static int MIN_LAUNCH_LIGHT = 800;
     public static int MAX_LAUNCH_LIGHT = 2500;
     DcMotorEx launchMotor;
     public static double LAUNCH_VELOCITY;
@@ -39,7 +39,3 @@ public class LaunchLight {
 
     public void setBlack() {light.setPosition(0.0);}
 }
-
-
-
-

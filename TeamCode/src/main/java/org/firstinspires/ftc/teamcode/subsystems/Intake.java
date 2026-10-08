@@ -24,7 +24,6 @@ double INTAKE_VELOCITY =800;
         } else if (gamepad.cross) {
             intakeMotor.setVelocity(0);
         }
-
     }
 
 }
