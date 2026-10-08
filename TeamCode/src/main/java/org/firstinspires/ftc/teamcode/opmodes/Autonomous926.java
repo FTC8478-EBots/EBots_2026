@@ -6,6 +6,7 @@ import com.pedropathing.ivy.Scheduler;
 import com.pedropathing.math.Pose;
 import com.pedropathing.paths.Path;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import static com.pedropathing.api.Paths.line;
 import static com.pedropathing.ivy.Scheduler.schedule;
@@ -18,7 +19,7 @@ import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.tel
 import org.firstinspires.ftc.teamcode.pedro.Constants;
 
 @Autonomous
-public class Autonomous926 {
+public class Autonomous926  extends OpMode {
     private final PoseFactory poseFactory = PoseFactory.degrees();
 
     Follower  follower;

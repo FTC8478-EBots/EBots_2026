@@ -31,4 +31,5 @@ public static Procedure pinpointTuner() {
     public static Procedure foresightTuner() {
         return new ForesightTuner((hardwareMap) -> new PinpointLocalizer(hardwareMap, Constants.localizerConfig), (hardwareMap) -> new Mecanum(hardwareMap, Constants.drivetrainConfig));
     }
+
 }
