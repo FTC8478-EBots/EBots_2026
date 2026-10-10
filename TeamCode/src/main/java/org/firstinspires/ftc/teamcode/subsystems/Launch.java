@@ -24,7 +24,7 @@ import org.firstinspires.ftc.teamcode.RobotHardware;
 
 public class Launch {
     public static boolean LAUNCH_MOTOR_ON;
-    public static int LAUNCH_VELOCITY = 800;
+    public static int LAUNCH_VELOCITY = 1200;
     public static double TURN_OFF_TIME = 10.0;
     public static double STOW_POSTION=0;
     public static double LAUNCH_POSTION=0.5;
@@ -43,7 +43,7 @@ public class Launch {
         launchMotor = hardwareMap.get(DcMotorEx.class, "launch");
         this.gamepad = gamepad;
         //launchMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-    //    launchMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        launchMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
         this.telemetry = telemetry;
 
@@ -66,11 +66,13 @@ public class Launch {
             if (!pressed) {
                 pressed = true;
                 LAUNCH_VELOCITY -= 200;
+                launchMotor.setVelocity(LAUNCH_VELOCITY);
             }
         } else if (gamepad.dpad_right) {
             if (!pressed) {
                 pressed = true;
                 LAUNCH_VELOCITY += 200;
+                launchMotor.setVelocity(LAUNCH_VELOCITY);
             }
         } else {
             pressed = false;
@@ -78,8 +80,8 @@ public class Launch {
      //   if (/*!launchDetector.isArtifactDetected()/true && gamepad.triangle) {
        //     nextPostion();
        // }
-        telemetry.addData("LAUNCH_VELOCITY:", launchMotor.getVelocity());
-        telemetry.addData("TARGET_VELOCITY:", LAUNCH_VELOCITY);
+        telemetry.addData("CURRENT_VELOCITY:", launchMotor.getVelocity());
+        telemetry.addData("LAUNCH_VELOCITY:", LAUNCH_VELOCITY);
         telemetry.addData("VELOCITY_%:", launchMotor.getVelocity() / LAUNCH_VELOCITY);
     }
 
@@ -113,11 +115,11 @@ public class Launch {
      public void motorOnMotorOff() {
         RobotHardware robot=RobotHardware.getRobot();
          double seconds = robot.motorTimer.seconds();
-         if (LAUNCH_MOTOR_ON) {
-            if (seconds > TURN_OFF_TIME) {
-                launchMotor.setVelocity(0);
-                LAUNCH_MOTOR_ON = false;
-            }
-         }
+        // if (LAUNCH_MOTOR_ON) {
+         //   if (seconds > TURN_OFF_TIME) {
+                //launchMotor.setVelocity(0);
+                //LAUNCH_MOTOR_ON = false;
+          //  }
+         //}
     }
     }
