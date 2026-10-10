@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import static com.pedropathing.api.Paths.line;
 import static com.pedropathing.ivy.Scheduler.schedule;
+import static com.pedropathing.ivy.commands.Commands.instant;
 import static com.pedropathing.ivy.groups.Groups.sequential;
 import static com.pedropathing.ivy.pedro.PedroCommands.follow;
 
@@ -18,6 +19,7 @@ import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.tel
 
 import org.firstinspires.ftc.teamcode.paths.AutoAttempt4;
 import org.firstinspires.ftc.teamcode.pedro.Constants;
+import org.firstinspires.ftc.teamcode.subsystems.Launch;
 
 import static com.pedropathing.api.Paths.*;
 
@@ -26,18 +28,19 @@ import static com.pedropathing.api.Paths.*;
 public class DinonuggetsAuto3 extends  OpMode {
 
     Follower follower;
-
+Launch launcher;
     private final PoseFactory poseFactory = PoseFactory.degrees();
     AutoAttempt4 autoAttempt4 = new AutoAttempt4();
 
     private final Command autoRoutine () {
 
             return sequential(
-                    follow(follower, autoAttempt4.path_1())
+                   instant(() -> launcher.LaunchAction(1200)),
+                    follow(follower,autoAttempt4.path_1()),
 
-                   // follow(follower, autoAttempt4.path_2()),
-                   // follow(follower, autoAttempt4.path_3())
-                    //         follow(follower, redfarflower()),
+                    follow(follower, autoAttempt4.path_2()),
+                    follow(follower, autoAttempt4.path_3())
+
                     // Add mechanism commands here.
                     // follow(follower, park())
             );

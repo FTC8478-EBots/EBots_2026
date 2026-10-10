@@ -16,7 +16,7 @@ public class AutoAttempt4 {
     private final Pose point2 = poseFactory.of(23.24, 39.1661, 174.4798);
     private final Pose point3 = poseFactory.of(14.7351, 90.925, 99.3314);
 
-    public Path path_1() {return line(start, point1).tangent();
+    public Path path_1() {return line(start, point1).linear(start,point1);
     }
 
     public Path path_2() {
