@@ -24,27 +24,29 @@ import org.firstinspires.ftc.teamcode.RobotHardware;
 
 public class Launch {
     public static boolean LAUNCH_MOTOR_ON;
-    public static int LAUNCH_VELOCITY = 1200;
+    public static int LAUNCH_VELOCITY = 1120;
+    public static final int LAUNCH_INCREMENT=20;
     public static double TURN_OFF_TIME = 10.0;
     public static double STOW_POSTION=0;
     public static double LAUNCH_POSTION=0.5;
     ElapsedTime motorTimer;
 
     DcMotorEx launchMotor;
-    Servo pushServo;
+    Servo launchServo;
     Gamepad gamepad;
     Telemetry telemetry;
 
     private ElapsedTime mechanismTimer = new ElapsedTime();
     double targetVelocity;
     boolean pressed;
+    boolean trianglePressed;
 
     public Launch(HardwareMap hardwareMap, Gamepad gamepad, Telemetry telemetry) {
         launchMotor = hardwareMap.get(DcMotorEx.class, "launch");
         this.gamepad = gamepad;
         //launchMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         launchMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-
+        launchServo= hardwareMap.get(Servo.class, "launchServo");
         this.telemetry = telemetry;
 
     }
@@ -65,19 +67,26 @@ public class Launch {
         } else if (gamepad.dpad_left) {
             if (!pressed) {
                 pressed = true;
-                LAUNCH_VELOCITY -= 200;
+                LAUNCH_VELOCITY -= LAUNCH_INCREMENT;
                 launchMotor.setVelocity(LAUNCH_VELOCITY);
             }
         } else if (gamepad.dpad_right) {
             if (!pressed) {
                 pressed = true;
-                LAUNCH_VELOCITY += 200;
+                LAUNCH_VELOCITY += LAUNCH_INCREMENT;
                 launchMotor.setVelocity(LAUNCH_VELOCITY);
             }
         } else {
             pressed = false;
         }
-     //   if (/*!launchDetector.isArtifactDetected()/true && gamepad.triangle) {
+
+    if(gamepad.triangle){
+        launchServo.setPosition(LAUNCH_POSTION);
+    }else if (gamepad.square) {
+        launchServo.setPosition(STOW_POSTION);
+    }
+
+    //   if (/*!launchDetector.isArtifactDetected()/true && gamepad.triangle) {
        //     nextPostion();
        // }
         telemetry.addData("CURRENT_VELOCITY:", launchMotor.getVelocity());
