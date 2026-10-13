@@ -57,6 +57,7 @@ public class Launch {
                 pressed = true;
                 launchMotor.setVelocity(LAUNCH_VELOCITY);
                 LAUNCH_MOTOR_ON = true;
+                motorTimer.reset();
             }
         } else if (gamepad.dpad_down) {
                 if (!pressed) {
@@ -124,11 +125,11 @@ public class Launch {
      public void motorOnMotorOff() {
         RobotHardware robot=RobotHardware.getRobot();
          double seconds = robot.motorTimer.seconds();
-        // if (LAUNCH_MOTOR_ON) {
-         //   if (seconds > TURN_OFF_TIME) {
-                //launchMotor.setVelocity(0);
-                //LAUNCH_MOTOR_ON = false;
-          //  }
-         //}
+         if (LAUNCH_MOTOR_ON) {
+           if (seconds > TURN_OFF_TIME) {
+                launchMotor.setVelocity(0);
+                LAUNCH_MOTOR_ON = false;
+           }
+         }
     }
     }

@@ -11,12 +11,13 @@ public class TestTeleop extends OpMode    {
     public void init(){
         robot=RobotHardware.getRobot();
 
-        robot.init(hardwareMap, gamepad1, gamepad2, telemetry, motorTimer);
+        robot.init(hardwareMap, gamepad1, gamepad2, telemetry);
     }
     public void start() {
         robot.launchLight.setWhite();
-        stateTimer.reset();
-        motorTimer.reset();
+        //stateTimer.reset();
+        robot.motorTimer.reset();
+        robot.intakeTimer.reset();
 
     }
     public void loop(){
@@ -24,12 +25,10 @@ public class TestTeleop extends OpMode    {
         robot.intake.processGamepad();
         robot.launch.CheckLight();
         robot.launch.motorOnMotorOff();
-        double seconds = stateTimer.seconds();
-        if (stateTimer.seconds()>10.0){
-            stateTimer.reset();
-        }
+        //double seconds = stateTimer.seconds();
+        //if (stateTimer.seconds()>10.0){
+            //stateTimer.reset();
+        //}
       //mechanismTimer.reset();
     }
-    private ElapsedTime stateTimer = new ElapsedTime();
-    public ElapsedTime motorTimer = new ElapsedTime();
 }
