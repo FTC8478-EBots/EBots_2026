@@ -35,17 +35,17 @@ Launch launcher;
     private final Command autoRoutine () {
 
             return sequential(
-                   instant(() -> launcher.LaunchAction(1200)),
-                    follow(follower,autoAttempt4.path_1()),
+                  // instant(() -> launcher.LaunchAction(1200)),
+                    follow(follower,autoAttempt4.path_1())
 
-                    follow(follower, autoAttempt4.path_2()),
-                    follow(follower, autoAttempt4.path_3())
+                    //follow(follower, autoAttempt4.path_2()),
+                    //follow(follower, autoAttempt4.path_3())
 
                     // Add mechanism commands here.
                     // follow(follower, park())
             );
         }
-        //@Override
+        @Override
         public void init () {
             Scheduler.reset();
 
@@ -53,11 +53,11 @@ Launch launcher;
             follower.setPose(autoAttempt4.start);
             follower.update();
         }
-        //@Override
+        @Override
         public void start() {
             schedule(autoRoutine());
         }
-        //@Override
+        @Override
         public void loop() {
             follower.update();
             Scheduler.execute();
