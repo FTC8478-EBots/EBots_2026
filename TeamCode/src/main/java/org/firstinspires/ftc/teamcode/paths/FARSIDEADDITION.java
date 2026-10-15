@@ -5,9 +5,8 @@ import static com.pedropathing.api.Paths.*;
 import com.pedropathing.api.PoseFactory;
 import com.pedropathing.math.Pose;
 import com.pedropathing.paths.Path;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-public class AutoAttempt4 {
+public class FARSIDEADDITION {
 
     private final PoseFactory poseFactory = PoseFactory.degrees();
 
