@@ -23,8 +23,12 @@ import org.firstinspires.ftc.teamcode.RobotHardware;
 
 
 public class Launch {
+
+    double F=2.63;
+    double P=330.0;
     public static boolean LAUNCH_MOTOR_ON;
     public static int LAUNCH_VELOCITY = 1120;
+    public static boolean LAUNCH_AT_VELOCITY;
     public static final int LAUNCH_INCREMENT=20;
     public static double TURN_OFF_TIME = 10.0;
     public static double STOW_POSTION=0;
@@ -44,7 +48,8 @@ public class Launch {
     public Launch(HardwareMap hardwareMap, Gamepad gamepad, Telemetry telemetry) {
         launchMotor = hardwareMap.get(DcMotorEx.class, "launch");
         this.gamepad = gamepad;
-        //launchMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        launchMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        launchMotor.setVelocityPIDFCoefficients(P,0,0,F);
         launchMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         launchServo= hardwareMap.get(Servo.class, "launchServo");
         this.telemetry = telemetry;
@@ -81,7 +86,7 @@ public class Launch {
             pressed = false;
         }
 
-    if(gamepad.triangle){
+    if(gamepad.triangle && CheckLaunchVelocity()){
         launchServo.setPosition(LAUNCH_POSTION);
     }else if (gamepad.square) {
         launchServo.setPosition(STOW_POSTION);
@@ -105,14 +110,41 @@ public class Launch {
         double currentVelocity = launchMotor.getVelocity();
         RobotHardware robot = RobotHardware.getRobot();
         if (!LAUNCH_MOTOR_ON) {
-            robot.launchLight.setBlack();
+            LaunchMotorOff();
         } else if (currentVelocity < LAUNCH_VELOCITY * .9) {
-            robot.launchLight.setBlue();
+            LaunchUnderTarget();
         } else if (currentVelocity > LAUNCH_VELOCITY * 1.1) {
-            robot.launchLight.setRed();
+            LaunchOverTarget();
         } else {
-            robot.launchLight.setGreen();
+            LaunchAtTarget();
         }
+    }
+    public void LaunchMotorOff(){
+        RobotHardware robot = RobotHardware.getRobot();
+        robot.launchLight.setBlack();
+    }
+    public void LaunchUnderTarget(){
+        RobotHardware robot = RobotHardware.getRobot();
+        robot.launchLight.setBlue();
+    }
+    public void LaunchAtTarget(){
+        RobotHardware robot = RobotHardware.getRobot();
+        robot.launchLight.setGreen();
+    }
+    public void LaunchOverTarget(){
+        RobotHardware robot = RobotHardware.getRobot();
+        robot.launchLight.setRed();
+    }
+    public boolean CheckLaunchVelocity(){
+        double currentVelocity = launchMotor.getVelocity();
+        double MinVelocity = LAUNCH_VELOCITY * .9;
+        double MaxVelocity = LAUNCH_VELOCITY * 1.1;
+        if(currentVelocity > MinVelocity && currentVelocity < MaxVelocity) {
+            LAUNCH_AT_VELOCITY = true;
+        } else {
+            LAUNCH_AT_VELOCITY = false;
+        }
+        return LAUNCH_AT_VELOCITY;
     }
 
    // public class LaunchAction implements Action {
