@@ -10,10 +10,10 @@ public class FARSIDEADDITION {
 
     private final PoseFactory poseFactory = PoseFactory.degrees();
 
-    public final Pose start = poseFactory.of(56, 8, 90);
-    private final Pose point1 = poseFactory.of(56, 36, 90);
-    private final Pose point2 = poseFactory.of(23.24, 39.1661, 174.4798);
-    private final Pose point3 = poseFactory.of(14.7351, 90.925, 99.3314);
+    public final Pose start = poseFactory.of(56, 8, -90);
+    private final Pose point1 = poseFactory.of(56, 36, -90);
+    private final Pose point2 = poseFactory.of(48.24, 39.1661, -180);
+    private final Pose point3 = poseFactory.of(25.26, 99.925, -99);
 
     public Path path_1() {return line(start, point1).linear(start,point1);
     }
