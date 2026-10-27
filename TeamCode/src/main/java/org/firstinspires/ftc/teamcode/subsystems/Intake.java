@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.RobotHardware;
 public class Intake {
     public static boolean INTAKE_MOTOR_ON;
     public static double TURN_OFF_INTAKE_TIME = 10.0;
-    ElapsedTime intakeTimer;
+    //ElapsedTime intakeTimer;
     DcMotorEx intakeMotor;
     Gamepad gamepad;
 double INTAKE_VELOCITY =800;
@@ -27,7 +27,7 @@ double INTAKE_VELOCITY =800;
         if (gamepad.circle) {
             intakeMotor.setVelocity(INTAKE_VELOCITY);
             INTAKE_MOTOR_ON = true;
-            intakeTimer.reset();
+         //   intakeTimer.reset();
         } else if (gamepad.cross) {
             intakeMotor.setVelocity(0);
         }

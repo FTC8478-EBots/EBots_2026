@@ -17,6 +17,8 @@ public class CLOSESIDEADDITION {
 
 
 
+
+
 public Path path_1() {return line(start, point1).linear(start,point1);
 }
 

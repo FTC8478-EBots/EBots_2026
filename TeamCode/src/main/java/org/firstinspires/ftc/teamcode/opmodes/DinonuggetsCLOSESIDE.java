@@ -31,10 +31,14 @@ import com.pedropathing.paths.Path;
   import com.pedropathing.follower.Follower;
   import com.pedropathing.ivy.Command;
   import com.pedropathing.ivy.Scheduler;
-  import com.qualcomm.robotcore.hardware.Gamepad;
   import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
   import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-
+  import com.qualcomm.robotcore.hardware.DcMotorEx;
+  import com.qualcomm.robotcore.hardware.DcMotorSimple;
+  import com.qualcomm.robotcore.hardware.Gamepad;
+  import com.qualcomm.robotcore.hardware.HardwareMap;
+  import com.qualcomm.robotcore.hardware.Servo;
+  import com.pedropathing.drivetrain.DrivePowers;
   import static com.pedropathing.api.Paths.line;
   import static com.pedropathing.ivy.Scheduler.schedule;
   import static com.pedropathing.ivy.groups.Groups.sequential;
@@ -46,46 +50,33 @@ import com.pedropathing.paths.Path;
   import org.firstinspires.ftc.teamcode.paths.FARSIDEADDITION;
   import org.firstinspires.ftc.teamcode.pedro.Constants;
   import org.firstinspires.ftc.teamcode.subsystems.Launch;
-  import com.qualcomm.robotcore.hardware.DcMotorEx;
-  import com.qualcomm.robotcore.hardware.DcMotorSimple;
-  import com.qualcomm.robotcore.hardware.Gamepad;
-  import com.qualcomm.robotcore.hardware.HardwareMap;
 
 
   @Autonomous
   public class DinonuggetsCLOSESIDE extends  OpMode {
-      public static int LAUNCH_VELOCITY = 1120;
       RobotHardware robot;
-      DcMotorEx launchMotor;
-      Gamepad gamepad;
-
       Follower follower;
-      Launch launcher;
       private final PoseFactory poseFactory = PoseFactory.degrees();
       CLOSESIDEADDITION autoAttempt4 = new CLOSESIDEADDITION();
-
       private final Command autoRoutine () {
 
           return sequential(
-          follow(follower,autoAttempt4.path_1()),
+                  // PUT LAUNCH CODE HERE :3
+
+                  //robot.launch.setVelocity(LAUNCH_VELOCITY),
+                  robot.launch.AutoLaunch(),
+                  follow(follower,autoAttempt4.path_1()),
 
                   follow(follower, autoAttempt4.path_2())
                  // follow(follower, autoAttempt4.path_3())
 
                   // Add mechanism commands here.
           );
+
       }
-      public void launch(HardwareMap hardwareMap, Gamepad gamepad, Telemetry telemetry) {
-          launchMotor = hardwareMap.get(DcMotorEx.class, "launch");
-          this.gamepad = gamepad;
-          //launchMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-          launchMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-
-          }
-
       @Override
       public void init () {
-          robot= RobotHardware.getRobot();
+          robot=RobotHardware.getRobot();
           robot.init(hardwareMap, gamepad1, gamepad2, telemetry);
           Scheduler.reset();
 

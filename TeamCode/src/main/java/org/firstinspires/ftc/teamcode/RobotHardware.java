@@ -34,7 +34,7 @@ public class RobotHardware {
     public void init(HardwareMap hardwareMap, Gamepad gamepad1, Gamepad gamepad2, Telemetry telemetry) {
         launch = new Launch(hardwareMap, gamepad2, telemetry);
         intake = new Intake(hardwareMap, gamepad2, telemetry);
-        launchLight = new LaunchLight(hardwareMap, telemetry, "LaunchLight");
+        launchLight = new LaunchLight(hardwareMap, telemetry, "launchLight");
         motorTimer = new ElapsedTime();
         intakeTimer = new ElapsedTime();
     }

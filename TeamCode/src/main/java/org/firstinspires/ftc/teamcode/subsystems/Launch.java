@@ -2,8 +2,12 @@ package org.firstinspires.ftc.teamcode.subsystems;
 
 // import static org.firstinspires.ftc.teamcode.subsystems.LaunchLight.MAX_LAUNCH_LIGHT;
 
+import static com.pedropathing.ivy.commands.Commands.instant;
+import static com.pedropathing.ivy.commands.Commands.waitMs;
+
 import androidx.annotation.NonNull;
 
+import com.pedropathing.ivy.Command;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -21,6 +25,9 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 import org.firstinspires.ftc.teamcode.RobotHardware;
 
+import java.util.Collections;
+import java.util.Set;
+
 
 public class Launch {
 
@@ -33,7 +40,7 @@ public class Launch {
     public static double TURN_OFF_TIME = 10.0;
     public static double STOW_POSTION=0;
     public static double LAUNCH_POSTION=0.5;
-    ElapsedTime motorTimer;
+    //ElapsedTime motorTimer;
 
     DcMotorEx launchMotor;
     Servo launchServo;
@@ -44,6 +51,8 @@ public class Launch {
     double targetVelocity;
     boolean pressed;
     boolean trianglePressed;
+    RobotHardware robot=RobotHardware.getRobot();
+
 
     public Launch(HardwareMap hardwareMap, Gamepad gamepad, Telemetry telemetry) {
         launchMotor = hardwareMap.get(DcMotorEx.class, "launch");
@@ -55,6 +64,15 @@ public class Launch {
         this.telemetry = telemetry;
 
     }
+    public Command AutoLaunch(){
+
+        return instant (() ->launchMotor.setVelocity(LAUNCH_VELOCITY));
+        }
+        Command pause = waitMs(5000);
+           return instant(() -> launchMotor.setVelocity(0));
+
+
+    }
 
     public void processGamepad() {
         if (gamepad.dpad_up) {
@@ -62,7 +80,7 @@ public class Launch {
                 pressed = true;
                 launchMotor.setVelocity(LAUNCH_VELOCITY);
                 LAUNCH_MOTOR_ON = true;
-                motorTimer.reset();
+                robot.motorTimer.reset();
             }
         } else if (gamepad.dpad_down) {
                 if (!pressed) {
@@ -108,7 +126,6 @@ public class Launch {
     }
     public void CheckLight() {
         double currentVelocity = launchMotor.getVelocity();
-        RobotHardware robot = RobotHardware.getRobot();
         if (!LAUNCH_MOTOR_ON) {
             LaunchMotorOff();
         } else if (currentVelocity < LAUNCH_VELOCITY * .9) {
@@ -155,7 +172,6 @@ public class Launch {
 
         }
      public void motorOnMotorOff() {
-        RobotHardware robot=RobotHardware.getRobot();
          double seconds = robot.motorTimer.seconds();
          if (LAUNCH_MOTOR_ON) {
            if (seconds > TURN_OFF_TIME) {
