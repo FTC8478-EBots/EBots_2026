@@ -10,6 +10,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.subsystems.Intake;
 import org.firstinspires.ftc.teamcode.subsystems.Launch;
 import org.firstinspires.ftc.teamcode.subsystems.LaunchLight;
+import org.firstinspires.ftc.teamcode.subsystems.LiftServo;
 
 public class RobotHardware {
     private RobotHardware() {
@@ -26,6 +27,7 @@ public class RobotHardware {
     private static RobotHardware robotHardware;
     public Launch launch;
     public LaunchLight launchLight;
+    public LiftServo liftServo;
     public Intake intake;
     public ElapsedTime motorTimer;
     public ElapsedTime intakeTimer;
@@ -35,6 +37,7 @@ public class RobotHardware {
         launch = new Launch(hardwareMap, gamepad2, telemetry);
         intake = new Intake(hardwareMap, gamepad2, telemetry);
         launchLight = new LaunchLight(hardwareMap, telemetry, "launchLight");
+        liftServo = new LiftServo(hardwareMap, telemetry, "liftServo");
         motorTimer = new ElapsedTime();
         intakeTimer = new ElapsedTime();
     }

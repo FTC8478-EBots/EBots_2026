@@ -4,6 +4,7 @@ package org.firstinspires.ftc.teamcode.subsystems;
 
 import static com.pedropathing.ivy.commands.Commands.instant;
 import static com.pedropathing.ivy.commands.Commands.waitMs;
+import static com.pedropathing.ivy.commands.Commands.waitUntil;
 import static com.pedropathing.ivy.groups.Groups.sequential;
 
 import androidx.annotation.NonNull;
@@ -68,6 +69,9 @@ public class Launch {
     public Command AutoLaunch(){
         return sequential(
          instant (() ->launchMotor.setVelocity(LAUNCH_VELOCITY)),
+                //wait until Velocity = LAUNCH_VELOCITY
+        //double currentVelocity = launchMotor.getVelocity();
+            //    waitUntil(currentVelocity>LAUNCH_VELOCITY),
                 waitMs(5000),
            instant(() -> launchMotor.setVelocity(0)));
 
