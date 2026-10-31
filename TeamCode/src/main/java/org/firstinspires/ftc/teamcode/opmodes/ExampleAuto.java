@@ -15,11 +15,13 @@ import static com.pedropathing.ivy.Scheduler.schedule;
 import static com.pedropathing.ivy.groups.Groups.sequential;
 import static com.pedropathing.ivy.pedro.PedroCommands.follow;
 
+import org.firstinspires.ftc.teamcode.RobotHardware;
 import org.firstinspires.ftc.teamcode.pedro.Constants;
 
-@Autonomous
+@Autonomous (preselectTeleOp = "JoeBotTeleop")
 public class ExampleAuto extends OpMode {
     private Follower follower;
+    private RobotHardware joeBot;
     private final PoseFactory poseFactory = PoseFactory.degrees();
 
     // Poses
@@ -63,10 +65,17 @@ public class ExampleAuto extends OpMode {
     @Override
     public void init() {
         Scheduler.reset();
+        joeBot = RobotHardware.getInstance();
+        joeBot.init(hardwareMap);
 
-        follower = Constants.create(hardwareMap);
+        follower = joeBot.follower;
         follower.setPose(startPose);
         follower.update();
+    }
+
+    @Override
+    public void init_loop() {
+        joeBot.prism.processGamepad(gamepad1);
     }
 
     @Override
