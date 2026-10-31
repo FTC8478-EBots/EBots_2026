@@ -4,7 +4,10 @@ import com.pedropathing.follower.Follower;
 import com.pedropathing.follower.ManualDrive;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.util.ElapsedTime;
+
+import org.firstinspires.ftc.ftccommon.internal.manualcontrol.responses.ImuQuaternionResponse;
 import org.firstinspires.ftc.teamcode.RobotHardware;
 import org.firstinspires.ftc.teamcode.pedro.Constants;
 
@@ -46,6 +49,11 @@ public class TestTeleop extends OpMode    {
                 -gamepad1.right_stick_x,
                 follower.pose().heading()
         );
+        if (gamepad1.right_bumper && gamepad1.left_bumper){
+            follower.setHeading(0);
+
+        }
+
         follower.manual(powers);
         follower.update();
 

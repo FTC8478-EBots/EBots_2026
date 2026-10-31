@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 
+import com.pedropathing.math.Pose;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.robot.Robot;
@@ -15,7 +16,15 @@ import org.firstinspires.ftc.teamcode.subsystems.LiftServo;
 public class RobotHardware {
     private RobotHardware() {
     }
-
+    public void storeHeading(Pose p ) {
+        pose = p;
+    }
+    public Pose getHeading(){
+        Pose pose2;
+        pose2 = pose;
+        pose = null;
+        return pose2;
+    }
 
     public static RobotHardware getRobot() {
         if (robotHardware == null) {
@@ -31,7 +40,7 @@ public class RobotHardware {
     public Intake intake;
     public ElapsedTime motorTimer;
     public ElapsedTime intakeTimer;
-
+    public Pose pose;
 
     public void init(HardwareMap hardwareMap, Gamepad gamepad1, Gamepad gamepad2, Telemetry telemetry) {
         launch = new Launch(hardwareMap, gamepad2, telemetry);

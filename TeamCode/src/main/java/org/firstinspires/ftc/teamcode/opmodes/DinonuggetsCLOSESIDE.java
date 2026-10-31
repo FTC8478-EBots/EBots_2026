@@ -52,7 +52,7 @@ import com.pedropathing.paths.Path;
   import org.firstinspires.ftc.teamcode.subsystems.Launch;
 
 
-  @Autonomous
+  @Autonomous(name="FINALAutonLeft DN", preselectTeleOp="TestTeleop")
   public class DinonuggetsCLOSESIDE extends  OpMode {
       RobotHardware robot;
       Follower follower;

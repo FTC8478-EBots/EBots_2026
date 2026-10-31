@@ -16,7 +16,7 @@ import org.firstinspires.ftc.teamcode.pedro.Constants;
 import org.firstinspires.ftc.teamcode.subsystems.Launch;
 
 
-@Autonomous
+@Autonomous(name="FINALAutonRight DN", preselectTeleOp="TestTeleop")
 public class DinonuggetsFARSIDE extends  OpMode {
 
     Follower follower;
