@@ -10,6 +10,7 @@ import static com.pedropathing.ivy.groups.Groups.sequential;
 import androidx.annotation.NonNull;
 
 import com.pedropathing.ivy.Command;
+import com.pedropathing.ivy.CommandBuilder;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -67,14 +68,17 @@ public class Launch {
 
     }
     public Command AutoLaunch(){
+
         return sequential(
          instant (() ->launchMotor.setVelocity(LAUNCH_VELOCITY)),
+                waitUntil(() ->launchMotor.getVelocity() > 1200),
+                instant (() ->launchServo.setPosition(0.5),
                 //wait until Velocity = LAUNCH_VELOCITY
         //double currentVelocity = launchMotor.getVelocity();
             //    waitUntil(currentVelocity>LAUNCH_VELOCITY),
                 waitMs(5000),
            instant(() -> launchMotor.setVelocity(0)));
-
+//https://pedropathing.com/docs/ivy/creating-opmodes
 
     }
 
