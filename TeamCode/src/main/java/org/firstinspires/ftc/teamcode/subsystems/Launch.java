@@ -68,11 +68,15 @@ public class Launch {
 
     }
     public Command AutoLaunch(){
-
+        // Define commands
+       /* Command autoLaunch = Command.build();
+        autoLaunch.setExecute(() -> launchMotor.setVelocity(LAUNCH_VELOCITY))
+                .setDone(() -> launchMotor.getVelocity() > 1200)
+                .setEnd(endCondition -> launchServo.setPosition(0.5)); */
         return sequential(
          instant (() ->launchMotor.setVelocity(LAUNCH_VELOCITY)),
                 waitUntil(() ->launchMotor.getVelocity() > 1200),
-                instant (() ->launchServo.setPosition(0.5),
+                instant (() ->launchServo.setPosition(0.5)),
                 //wait until Velocity = LAUNCH_VELOCITY
         //double currentVelocity = launchMotor.getVelocity();
             //    waitUntil(currentVelocity>LAUNCH_VELOCITY),

@@ -41,6 +41,7 @@ import com.pedropathing.paths.Path;
   import com.pedropathing.drivetrain.DrivePowers;
   import static com.pedropathing.api.Paths.line;
   import static com.pedropathing.ivy.Scheduler.schedule;
+  import static com.pedropathing.ivy.commands.Commands.waitMs;
   import static com.pedropathing.ivy.groups.Groups.sequential;
   import static com.pedropathing.ivy.pedro.PedroCommands.follow;
 
@@ -61,6 +62,7 @@ import com.pedropathing.paths.Path;
       private final Command autoRoutine () {
 
           return sequential(
+                 // waitMs(robot.autonDelay),
                   // PUT LAUNCH CODE HERE :3
 
                   //robot.launch.setVelocity(LAUNCH_VELOCITY),

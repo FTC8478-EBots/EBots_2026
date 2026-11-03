@@ -19,6 +19,7 @@ public class RobotHardware {
     public void storeHeading(Pose p ) {
         pose = p;
     }
+
     public Pose getHeading(){
         Pose pose2;
         pose2 = pose;
