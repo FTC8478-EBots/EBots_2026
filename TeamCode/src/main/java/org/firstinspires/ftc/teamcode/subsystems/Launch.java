@@ -31,7 +31,6 @@ import org.firstinspires.ftc.teamcode.RobotHardware;
 import java.util.Collections;
 import java.util.Set;
 
-
 public class Launch {
 
     double F=2.63;

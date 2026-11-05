@@ -13,7 +13,7 @@ public class CLOSESIDEADDITION {
 
         public final Pose start = poseFactory.of(57.9457, 126.7025, 90);
         private final Pose point1 = poseFactory.of(57.9258, 113.7307, 90.0878);
-        private final Pose point2 = poseFactory.of(1.2804, 107.5831, -169.5345);
+        private final Pose point2 = poseFactory.of(1.2804, 111.5831, -169.5345);
 
 
 

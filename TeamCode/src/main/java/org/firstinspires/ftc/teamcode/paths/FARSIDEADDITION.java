@@ -17,6 +17,10 @@ public class FARSIDEADDITION {
 
     public Path path_1() {return line(start, point1).linear(start,point1);
     }
+    /*public Shooter.shoot( {
+follow(follower, shootPreloads);
+}*/
+
 
     public Path path_2() {
         return line(point1, point2).tangent();
