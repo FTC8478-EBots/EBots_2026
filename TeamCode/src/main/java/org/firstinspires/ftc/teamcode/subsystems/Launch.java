@@ -36,7 +36,7 @@ public class Launch {
     double F=2.63;
     double P=330.0;
     public static boolean LAUNCH_MOTOR_ON;
-    public static int LAUNCH_VELOCITY = 1120;
+    public static int LAUNCH_VELOCITY = -1220;
     public static boolean LAUNCH_AT_VELOCITY;
     public static final int LAUNCH_INCREMENT=20;
     public static double TURN_OFF_TIME = 10.0;

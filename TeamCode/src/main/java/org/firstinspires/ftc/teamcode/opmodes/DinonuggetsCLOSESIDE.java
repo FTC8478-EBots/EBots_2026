@@ -63,13 +63,10 @@ import com.pedropathing.paths.Path;
 
           return sequential(
                  // waitMs(robot.autonDelay),
-                  // PUT LAUNCH CODE HERE :3
-
                   //robot.launch.setVelocity(LAUNCH_VELOCITY),
                   robot.launch.AutoLaunch(),
                   follow(follower,autoAttempt4.path_1()),
-
-                  follow(follower, autoAttempt4.path_2())
+                  follow(follower,autoAttempt4.path_2())
                  // follow(follower, autoAttempt4.path_3())
 
                   // Add mechanism commands here.

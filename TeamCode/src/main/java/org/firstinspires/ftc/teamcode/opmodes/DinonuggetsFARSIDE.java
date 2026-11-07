@@ -11,6 +11,7 @@ import static com.pedropathing.ivy.Scheduler.schedule;
 import static com.pedropathing.ivy.groups.Groups.sequential;
 import static com.pedropathing.ivy.pedro.PedroCommands.follow;
 
+import org.firstinspires.ftc.teamcode.RobotHardware;
 import org.firstinspires.ftc.teamcode.paths.FARSIDEADDITION;
 import org.firstinspires.ftc.teamcode.pedro.Constants;
 import org.firstinspires.ftc.teamcode.subsystems.Launch;
@@ -19,6 +20,7 @@ import org.firstinspires.ftc.teamcode.subsystems.Launch;
 @Autonomous(name="FINALAutonRight DN", preselectTeleOp="TestTeleop")
 public class DinonuggetsFARSIDE extends  OpMode {
 
+    RobotHardware robot;
     Follower follower;
 Launch launcher;
     private final PoseFactory poseFactory = PoseFactory.degrees();
@@ -27,11 +29,13 @@ Launch launcher;
     private final Command autoRoutine () {
 
             return sequential(
-                  // instant(() -> launcher.LaunchAction(1200)),
-                    follow(follower,autoAttempt4.path_1()),
 
-                    follow(follower, autoAttempt4.path_2()),
-                    follow(follower, autoAttempt4.path_3())
+                    // waitMs(robot.autonDelay),
+                    //robot.launch.setVelocity(LAUNCH_VELOCITY),
+                    robot.launch.AutoLaunch(),
+                    follow(follower,autoAttempt4.path_1()),
+                    follow(follower,autoAttempt4.path_2()),
+                    follow(follower,autoAttempt4.path_3())
 
                     // Add mechanism commands here.
                      //follow(follower, park())
@@ -59,6 +63,7 @@ Launch launcher;
             telemetry.addData("Y", follower.pose().y());
             telemetry.addData("Heading", Math.toDegrees(follower.pose().heading()));
             telemetry.addData("Follower Mode", follower.mode());
+
             telemetry.update();
         }
     }
