@@ -12,8 +12,11 @@ import org.firstinspires.ftc.teamcode.subsystems.Intake;
 import org.firstinspires.ftc.teamcode.subsystems.Launch;
 import org.firstinspires.ftc.teamcode.subsystems.LaunchLight;
 import org.firstinspires.ftc.teamcode.subsystems.LiftServo;
+import com.qualcomm.hardware.limelightvision.Limelight3A;
+
 
 public class RobotHardware {
+    public Limelight3A limelight;
     private RobotHardware() {
     }
     public void storeHeading(Pose p ) {
@@ -33,7 +36,7 @@ public class RobotHardware {
         }
         return robotHardware;
     }
-
+public int autonDelay = 12000;
     private static RobotHardware robotHardware;
     public Launch launch;
     public LaunchLight launchLight;

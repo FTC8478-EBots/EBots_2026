@@ -31,6 +31,9 @@ import com.pedropathing.paths.Path;
   import com.pedropathing.follower.Follower;
   import com.pedropathing.ivy.Command;
   import com.pedropathing.ivy.Scheduler;
+  import com.qualcomm.hardware.limelightvision.LLResult;
+  import com.qualcomm.hardware.limelightvision.LLResultTypes;
+  import com.qualcomm.hardware.limelightvision.Limelight3A;
   import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
   import com.qualcomm.robotcore.eventloop.opmode.OpMode;
   import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -52,9 +55,12 @@ import com.pedropathing.paths.Path;
   import org.firstinspires.ftc.teamcode.pedro.Constants;
   import org.firstinspires.ftc.teamcode.subsystems.Launch;
 
+  import java.util.List;
+
 
   @Autonomous(name="FINALAutonLeft DN", preselectTeleOp="TestTeleop")
   public class DinonuggetsCLOSESIDE extends  OpMode {
+      private Limelight3A limelight;
       RobotHardware robot;
       Follower follower;
       private final PoseFactory poseFactory = PoseFactory.degrees();
@@ -62,13 +68,13 @@ import com.pedropathing.paths.Path;
       private final Command autoRoutine () {
 
           return sequential(
-                 // waitMs(robot.autonDelay),
+                  waitMs(robot.autonDelay),
                   //robot.launch.setVelocity(LAUNCH_VELOCITY),
                   robot.launch.AutoLaunch(),
                   follow(follower,autoAttempt4.path_1()),
-                  follow(follower,autoAttempt4.path_2())
+                  follow(follower,autoAttempt4.path_2()),
                  // follow(follower, autoAttempt4.path_3())
-
+                  waitMs(1200)
                   // Add mechanism commands here.
           );
 
@@ -82,6 +88,16 @@ import com.pedropathing.paths.Path;
           follower = Constants.create(hardwareMap);
           follower.setPose(autoAttempt4.start);
           follower.update();
+          robot.limelight = hardwareMap.get(Limelight3A.class, "limelight");
+
+          telemetry.setMsTransmissionInterval(11);
+
+          robot.limelight.pipelineSwitch(0);
+
+          /*
+           * Starts polling for data.  If you neglect to call start(), getLatestResult() will return null.
+           */
+          robot.limelight.start();
       }
       @Override
       public void start() {
@@ -98,6 +114,39 @@ import com.pedropathing.paths.Path;
           telemetry.addData("Heading", Math.toDegrees(follower.pose().heading()));
           telemetry.addData("Follower Mode", follower.mode());
           telemetry.update();
+
+
+          LLResult result = robot.limelight.getLatestResult();
+          if (result.isValid()) {
+              // Access general information
+              // Pose3D botpose = result.getBotpose();
+              double captureLatency = result.getCaptureLatency();
+              double targetingLatency = result.getTargetingLatency();
+              double parseLatency = result.getParseLatency();
+              // telemetry.addData("LL Latency", captureLatency + targetingLatency);
+              // telemetry.addData("Parse Latency", parseLatency);
+              telemetry.addData("PythonOutput", java.util.Arrays.toString(result.getPythonOutput()));
+
+              telemetry.addData("tx", result.getTx());
+              telemetry.addData("txnc", result.getTxNC());
+              telemetry.addData("ty", result.getTy());
+              telemetry.addData("tync", result.getTyNC());
+
+              // telemetry.addData("Botpose", botpose.toString());
+
+              // Access fiducial results
+              List<LLResultTypes.FiducialResult> fiducialResults = result.getFiducialResults();
+              for (LLResultTypes.FiducialResult fr : fiducialResults) {
+                  telemetry.addData("Fiducial", "ID: %d, Family: %s, X: %.2f, Y: %.2f", fr.getFiducialId(), fr.getFamily(), fr.getTargetXDegrees(), fr.getTargetYDegrees());
+              }
+
+          } else {
+              telemetry.addData("Limelight", "No data available");
+          }
+
+          telemetry.update();
       }
-  }
+// Noah also has a pet fish named rumtumtumtum who is 444
+      }
+
 

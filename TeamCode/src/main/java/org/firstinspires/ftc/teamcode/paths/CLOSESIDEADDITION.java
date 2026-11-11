@@ -27,9 +27,9 @@ follow(follower, shootPreloads);
 }*/
 
 public Path path_2() {
-    return line(point1, point2).tangent();
+    return line(point1, point2).tangent(); }
 }
 
 
-    }
+
 

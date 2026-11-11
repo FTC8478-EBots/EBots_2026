@@ -36,12 +36,12 @@ public class Launch {
     double F=2.63;
     double P=330.0;
     public static boolean LAUNCH_MOTOR_ON;
-    public static int LAUNCH_VELOCITY = -1220;
+    public static int LAUNCH_VELOCITY = 1220;
     public static boolean LAUNCH_AT_VELOCITY;
     public static final int LAUNCH_INCREMENT=20;
     public static double TURN_OFF_TIME = 10.0;
-    public static double STOW_POSTION=0;
-    public static double LAUNCH_POSTION=0.5;
+    public static double STOW_POSTION=0.25;
+    public static double LAUNCH_POSTION=0.75;
     //ElapsedTime motorTimer;
 
     DcMotorEx launchMotor;
@@ -61,8 +61,9 @@ public class Launch {
         this.gamepad = gamepad;
         launchMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         launchMotor.setVelocityPIDFCoefficients(P,0,0,F);
-        launchMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        launchMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         launchServo= hardwareMap.get(Servo.class, "launchServo");
+        launchServo.setPosition(STOW_POSTION);
         this.telemetry = telemetry;
 
     }
@@ -75,11 +76,12 @@ public class Launch {
         return sequential(
          instant (() ->launchMotor.setVelocity(LAUNCH_VELOCITY)),
                 waitUntil(() ->launchMotor.getVelocity() > 1200),
-                instant (() ->launchServo.setPosition(0.5)),
+                instant (() ->launchServo.setPosition(LAUNCH_POSTION)),
                 //wait until Velocity = LAUNCH_VELOCITY
         //double currentVelocity = launchMotor.getVelocity();
             //    waitUntil(currentVelocity>LAUNCH_VELOCITY),
                 waitMs(5000),
+                instant(() ->  launchServo.setPosition(STOW_POSTION)),
            instant(() -> launchMotor.setVelocity(0)));
 //https://pedropathing.com/docs/ivy/creating-opmodes
 
@@ -115,7 +117,7 @@ public class Launch {
             pressed = false;
         }
 
-    if(gamepad.triangle && CheckLaunchVelocity()){
+    if(gamepad.triangle) {// && CheckLaunchVelocity()){
         launchServo.setPosition(LAUNCH_POSTION);
     }else if (gamepad.square) {
         launchServo.setPosition(STOW_POSTION);
