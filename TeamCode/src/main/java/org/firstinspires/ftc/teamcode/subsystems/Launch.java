@@ -40,8 +40,8 @@ public class Launch {
     public static boolean LAUNCH_AT_VELOCITY;
     public static final int LAUNCH_INCREMENT=20;
     public static double TURN_OFF_TIME = 10.0;
-    public static double STOW_POSTION=0.25;
-    public static double LAUNCH_POSTION=0.75;
+    public static double STOW_POSTION=1.0;
+    public static double LAUNCH_POSTION=.75;
     //ElapsedTime motorTimer;
 
     DcMotorEx launchMotor;
@@ -75,14 +75,18 @@ public class Launch {
                 .setEnd(endCondition -> launchServo.setPosition(0.5)); */
         return sequential(
          instant (() ->launchMotor.setVelocity(LAUNCH_VELOCITY)),
-                waitUntil(() ->launchMotor.getVelocity() > 1200),
+                waitUntil(() ->isFast()),
+                instant(() ->robot.intake.intakeMotor.setVelocity(Intake.INTAKE_VELOCITY)),
+
                 instant (() ->launchServo.setPosition(LAUNCH_POSTION)),
                 //wait until Velocity = LAUNCH_VELOCITY
         //double currentVelocity = launchMotor.getVelocity();
             //    waitUntil(currentVelocity>LAUNCH_VELOCITY),
                 waitMs(5000),
                 instant(() ->  launchServo.setPosition(STOW_POSTION)),
-           instant(() -> launchMotor.setVelocity(0)));
+                instant(() ->robot.intake.intakeMotor.setVelocity(0)),
+
+                instant(() -> launchMotor.setVelocity(0)));
 //https://pedropathing.com/docs/ivy/creating-opmodes
 
     }
@@ -117,11 +121,11 @@ public class Launch {
             pressed = false;
         }
 
-    if(gamepad.triangle) {// && CheckLaunchVelocity()){
-        launchServo.setPosition(LAUNCH_POSTION);
-    }else if (gamepad.square) {
+     if (gamepad.square || !CheckLaunchVelocity()) {
         launchServo.setPosition(STOW_POSTION);
-    }
+    } else if(gamepad.triangle){
+         launchServo.setPosition(LAUNCH_POSTION);
+     }
 
     //   if (/*!launchDetector.isArtifactDetected()/true && gamepad.triangle) {
        //     nextPostion();
@@ -135,7 +139,7 @@ public class Launch {
     }//if error occurs check nextPosition
 
     boolean isFast() {
-        return (launchMotor.getVelocity()/LAUNCH_VELOCITY)>.8;
+        return (launchMotor.getVelocity()/LAUNCH_VELOCITY)>.95;
     }
     public void CheckLight() {
         double currentVelocity = launchMotor.getVelocity();
@@ -167,7 +171,7 @@ public class Launch {
     }
     public boolean CheckLaunchVelocity(){
         double currentVelocity = launchMotor.getVelocity();
-        double MinVelocity = LAUNCH_VELOCITY * .9;
+        double MinVelocity = LAUNCH_VELOCITY * .8;
         double MaxVelocity = LAUNCH_VELOCITY * 1.1;
         if(currentVelocity > MinVelocity && currentVelocity < MaxVelocity) {
             LAUNCH_AT_VELOCITY = true;
@@ -187,10 +191,10 @@ public class Launch {
      public void motorOnMotorOff() {
          double seconds = robot.motorTimer.seconds();
          if (LAUNCH_MOTOR_ON) {
-           if (seconds > TURN_OFF_TIME) {
-                launchMotor.setVelocity(0);
-                LAUNCH_MOTOR_ON = false;
-           }
+          // if (seconds > TURN_OFF_TIME) {
+          //      launchMotor.setVelocity(0);
+          //      LAUNCH_MOTOR_ON = false;
+          // }
          }
     }
     }

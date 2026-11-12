@@ -15,7 +15,7 @@ public class Intake {
     //ElapsedTime intakeTimer;
     DcMotorEx intakeMotor;
     Gamepad gamepad;
-double INTAKE_VELOCITY = 1220;
+    public static double INTAKE_VELOCITY = 1220;
     public Intake(HardwareMap hardwareMap, Gamepad gamepad, Telemetry telemetry) {
         intakeMotor = hardwareMap.get(DcMotorEx.class, "intake");
         this.gamepad = gamepad;
